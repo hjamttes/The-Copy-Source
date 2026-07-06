@@ -56,15 +56,7 @@
       <div class="postcard-face back" aria-hidden="true">
         <div class="pc-back">
           <div class="pc-back-art">
-            <div class="pc-placeholder">
-              <svg viewBox="0 0 48 48" aria-hidden="true">
-                <rect x="4" y="12" width="40" height="28" rx="2" fill="none" stroke="#4A5245" stroke-width="2"/>
-                <path d="M4 16 L16 16 L19 12 L29 12 L32 16 L44 16" fill="none" stroke="#4A5245" stroke-width="2"/>
-                <circle cx="24" cy="27" r="8" fill="none" stroke="#4A5245" stroke-width="2"/>
-                <circle cx="24" cy="27" r="3" fill="none" stroke="#4A5245" stroke-width="2"/>
-              </svg>
-              <p>Storefront photo<br>coming soon</p>
-            </div>
+            <img src="assets/storefront.jpg" alt="The Copy Source, Inc. storefront at 108 North Main Street, Marysville, Ohio" class="pc-photo">
           </div>
           <div class="pc-back-bar">
             <span>printit@thecopysourceinc.com</span>
@@ -134,7 +126,11 @@
       <li><strong>Facebook:</strong> <a href="https://www.facebook.com/TheCopySourceINC" target="_blank" rel="noopener noreferrer">facebook.com/TheCopySourceINC</a></li>
     </ul>
 
-    <form class="order-form" id="orderForm">
+    <form class="order-form" id="orderForm" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="e131522c-9ce3-4808-a523-77204664fd28">
+      <input type="hidden" name="subject" value="New order inquiry — The Copy Source website">
+      <input type="text" name="botcheck" class="visually-hidden" tabindex="-1" autocomplete="off">
+
       <label>
         Your name
         <input type="text" name="name" autocomplete="name" required>
@@ -147,7 +143,7 @@
         What do you need printed?
         <textarea name="details" rows="3"></textarea>
       </label>
-      <button type="submit">Send it in</button>
+      <button type="submit" id="orderSubmit">Send it in</button>
     </form>
     <p class="form-note" id="formNote">No account needed — just tell us what you need and we'll call you back.</p>
   </section>

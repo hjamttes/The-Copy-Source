@@ -131,14 +131,46 @@
     })();
   }
 
-  /* ---------- lightweight order form ---------- */
+  /* ---------- order form -> Web3Forms ---------- */
 
   var form = document.getElementById("orderForm");
   var note = document.getElementById("formNote");
+  var submitBtn = document.getElementById("orderSubmit");
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
-    note.textContent = "Got it \u2014 we'll be in touch shortly to confirm the details.";
-    form.reset();
+
+    // honeypot: if this hidden field got filled in, it's a bot — pretend to succeed, send nothing
+    if (form.botcheck && form.botcheck.value) {
+      note.textContent = "Got it \u2014 we'll be in touch shortly to confirm the details.";
+      form.reset();
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending\u2026";
+    note.textContent = "Sending your request\u2026";
+
+    fetch(form.action, {
+      method: "POST",
+      headers: { Accept: "application/json" },
+      body: new FormData(form)
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data.success) {
+          note.textContent = "Got it \u2014 we'll be in touch shortly to confirm the details.";
+          form.reset();
+        } else {
+          note.textContent = "Something went wrong sending that \u2014 please call or email us directly instead.";
+        }
+      })
+      .catch(function () {
+        note.textContent = "Something went wrong sending that \u2014 please call or email us directly instead.";
+      })
+      .finally(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send it in";
+      });
   });
 })();
